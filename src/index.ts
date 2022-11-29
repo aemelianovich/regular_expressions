@@ -8,7 +8,7 @@ const rgx1_2 = /^[\w$]+$/;
 // 2
 // Create an array from string where dividers should be symbols .,; or space(consecutive spaces should be treates as one)
 // 'foo    bla.bar,gd;4'.split(myRegExp); // ['foo', 'bla', 'bar', 'gd', '4']
-const rgx2_1 = /(?:\s+|\.|,|;)/;
+const rgx2_1 = /\s+|[.,;]/;
 
 // 3
 // function that can get string with parametrized template and object that should be used to replace parameters with values
@@ -34,8 +34,8 @@ const format = (
 // 'aaaabbbbczzzz'.replace(myRegExp, replaceVal) == 'abcz';
 // 'abababbbabcabc'.replace(myRegExp, replaceVal) == 'abbabc';
 // 'foofoobabaaaazze'.replace(myRegExp, replaceVal) == 'foobaaze';
-const rgx4_1 = /(.{1,3}?)(\1+)/g;
-const rgx4_2 = /(.|..|...)(\1+)/g;
+const rgx4_1 = /(.{1,3}?)\1+/g;
+const rgx4_2 = /(.|..|...)\1+/g;
 
 // 5
 // Create a function that can find arithmetic operations in the string and replace with result
@@ -45,20 +45,17 @@ const rgx4_2 = /(.|..|...)(\1+)/g;
 // `);
 
 // const result = `
-// Какой-то текст 1
+// Какой-то текст 1 + 3 + 4
 // Еще какой-то текст 20
 // `;
-
 // expr1 is equal to result
 
 const calc = (str: string): string => {
-  return str.replace(
-    /(?:\(\d+|\d+)(?:(?: )*(?:\+|-|\*|\*\*|\\)(?: (?:\()*)*(?:\d+)(?:\))*)+/gim,
-    (...args) => {
-      console.log(args[0]);
-      return Function('', `return ${args[0]}`)();
-    },
-  );
+  const reg = /[(\d][()+/\-*\d ]+[)\d]/g;
+  return str.replace(reg, (...args) => {
+    console.log(args[0]);
+    return Function('', `return ${args[0]}`)();
+  });
 };
 
 export { rgx1_1, rgx1_2, rgx2_1, format, rgx4_1, rgx4_2, calc };

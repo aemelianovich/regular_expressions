@@ -4,7 +4,7 @@ Practice with regular expressions
 
 ## 1
 
-Return true if string contains latin alphabet, latin digits, underscore and dollar sign - otherwise false
+Return true if string contains only latin alphabet, latin digits, underscore and dollar sign - otherwise false
 myRegExp.test('привет'); // false
 myRegExp.test('234dgdg$'); // true
 
@@ -19,7 +19,7 @@ Return true if the string contains latin alphabet, latin digits, underscore and 
 'foo bla.bar,gd;4'.split(myRegExp); // ['foo', 'bla', 'bar', 'gd', '4']
 
 ```js
-const rgx2_1 = /(?:\s+|\.|\,|\;)/;
+const rgx2_1 = /\s+|[.,;]/;
 ```
 
 ## 3
@@ -79,12 +79,10 @@ const result = '
 
 ```js
 const calc = (str: string): string => {
-  return str.replace(
-    /(?:\(\d+|\d+)(?:(?: )*(?:\+|-|\*|\*\*|\\)(?: (?:\()*)*(?:\d+)(?:\))*)+/gim,
-    (...args) => {
-      console.log(args[0]);
-      return Function('', `return ${args[0]}`)();
-    },
-  );
+  const reg = /[(\d][()+/\-*\d ]+[)\d]/g;
+  return str.replace(reg, (...args) => {
+    console.log(args[0]);
+    return Function('', `return ${args[0]}`)();
+  });
 };
 ```

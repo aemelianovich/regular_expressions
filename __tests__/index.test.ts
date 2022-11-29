@@ -52,11 +52,11 @@ describe('Check regular expressions', () => {
   test('Check a function that can find arithmetic operations in the string and replace with result', () => {
     expect(
       calc(`
-    Какой-то текст (10 + 15 - 24) ** 2
+    Какой-то текст (10 + 15 - 24) ** 2 + (34 + 5)
     Еще какой-то текст 2 * 10
     `),
     ).toEqual(`
-    Какой-то текст 1
+    Какой-то текст 40
     Еще какой-то текст 20
     `);
   });
